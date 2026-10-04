@@ -41,7 +41,7 @@ export default function ForgotPasswordScreen() {
 
   const handleContinue = (data: { email: string }) => {
     router.push({
-      pathname: "/auth/verifyCode",
+      pathname: "/screens/auth/verifyCode",
       params: { redirect_url: "/auth/createNewPassword" },
     });
   };

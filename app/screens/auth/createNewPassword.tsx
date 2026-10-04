@@ -76,7 +76,7 @@ export default function CreateNewPasswordScreen() {
     // Simulate API call and close modal after 2 seconds
     setTimeout(() => {
       setSuccessModalOpen(false);
-      router.push("/auth/login");
+      router.push("/screens/auth/login");
     }, 2500);
   };
 
