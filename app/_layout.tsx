@@ -1,31 +1,26 @@
-import { Fab, FabIcon } from '@/components/ui/fab';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import { MoonIcon, SunIcon } from '@/components/ui/icon';
-import '@/global.css';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {
-  DarkTheme,
-  DefaultTheme,
-  Stack,
-  ThemeProvider,
-} from 'expo-router';
-import { useFonts } from 'expo-font';
-import { Slot, usePathname } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Fab, FabIcon } from "@/components/ui/fab";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { MoonIcon, SunIcon } from "@/components/ui/icon";
+import "@/global.css";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { useFonts } from "expo-font";
+import { Slot, usePathname } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from 'expo-router';
+} from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 
@@ -44,23 +39,25 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const pathname = usePathname();
-  const [colorMode, setColorMode] = useState<'light' | 'dark' | 'system'>(
-    'light'
+  const [colorMode, setColorMode] = useState<"light" | "dark" | "system">(
+    "light",
   );
 
   return (
-    <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorMode === "dark" ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <GluestackUIProvider mode={colorMode}>
           {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
-          <StatusBar style={'light'} />
-          <Stack screenOptions={{
-                headerShown: false,
-                animation: "slide_from_right",
-                animationDuration: 200,
-              }}>
-                <Stack.Screen name="index" />
-              </Stack>
+          <StatusBar style={"dark"} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: "slide_from_right",
+              animationDuration: 200,
+            }}
+          >
+            <Stack.Screen name="index" />
+          </Stack>
           {/* {pathname === '/' && (
             <Fab
               onPress={() =>
