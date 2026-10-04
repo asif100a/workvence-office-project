@@ -13,6 +13,8 @@ import {
 import ProfileAvatar from "@/components/common/ProfileAvatar";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
+import PackageGrid from "@/components/module/buyer/PackageGrid";
+import { router } from "expo-router";
 
 const packages = [
   { title: "Logo & Brand Identity", color: "#7b72ec", price: "$150" },
@@ -21,7 +23,7 @@ const packages = [
 
 function PackageCard({ title, color, price }: (typeof packages)[number]) {
   return (
-    <Pressable className="mr-3 w-[164px] rounded-[10px] border border-[#e4e4e4] bg-white p-2">
+    <Pressable onPress={() => router.push('/screens/gig/details/[id]')} className="mr-3 w-[164px] rounded-[10px] border border-[#e4e4e4] bg-white p-2">
       <View
         className="h-[112px] rounded-[6px]"
         style={{ backgroundColor: color }}
@@ -43,11 +45,11 @@ function PackageCard({ title, color, price }: (typeof packages)[number]) {
   );
 }
 
-function SectionTitle({ title }: { title: string }) {
+function SectionTitle({ title, onPress }: { title: string; onPress?: () => void }) {
   return (
     <View className="mb-3 mt-5 flex-row items-center justify-between">
       <Text className="text-[18px] font-bold text-[#222]">{title}</Text>
-      <Pressable className="flex-row items-center">
+      <Pressable className="flex-row items-center" onPress={onPress}>
         <Text className="mr-1 text-[11px] font-medium text-[#075f5a]">
           All Packages
         </Text>
@@ -58,10 +60,13 @@ function SectionTitle({ title }: { title: string }) {
 }
 
 export default function HomeScreen() {
+  const [homeView, setHomeView] = React.useState<"home" | "packages" | "ai">("home");
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [filterOpen, setFilterOpen] = React.useState(false);
   const [browseOpen, setBrowseOpen] = React.useState(false);
 
+  if (homeView === "packages") return <PackageGrid onBack={() => setHomeView("home")} />;
+  if (homeView === "ai") return <PackageGrid ai onBack={() => setHomeView("home")} />;
   if (searchOpen)
     return (
       <SearchView
@@ -101,6 +106,9 @@ export default function HomeScreen() {
               </Pressable>
             </View>
           </View>
+          <Pressable onPress={() => setHomeView("ai")} className="mt-4 self-start rounded-full border border-[#ddd] bg-white px-4 py-2">
+            <Text className="text-[11px] font-medium text-[#333]">AI Artists &amp; Design</Text>
+          </Pressable>
 
           <View className="mt-5 flex-row items-center gap-3">
             <View className="h-12 flex-1 flex-row items-center rounded-[10px] border border-[#dedede] bg-[#fafafa] px-3">
@@ -138,13 +146,13 @@ export default function HomeScreen() {
             </Pressable>
           </View>
 
-          <SectionTitle title="Picked for you." />
+          <SectionTitle title="Picked for you." onPress={() => setHomeView("packages")} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {packages.map((item) => (
               <PackageCard key={item.title} {...item} />
             ))}
           </ScrollView>
-          <SectionTitle title="Popular Packages" />
+          <SectionTitle title="Popular Packages" onPress={() => setHomeView("packages")} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {packages.map((item, index) => (
               <PackageCard
